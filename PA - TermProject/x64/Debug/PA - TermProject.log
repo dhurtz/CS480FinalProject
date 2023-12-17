@@ -1,0 +1,29 @@
+﻿  SkyBox.cpp
+C:\Users\sethl\PA - TermProject\PA - TermProject\SkyBox.cpp(191,43): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+C:\Users\sethl\PA - TermProject\PA - TermProject\SkyBox.cpp(234,43): warning C4267: 'argument': conversion from 'size_t' to 'GLsizei', possible loss of data
+  engine.cpp
+C:\Users\sethl\PA - TermProject\PA - TermProject\engine.cpp(85,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\sethl\PA - TermProject\PA - TermProject\engine.cpp(86,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+C:\Users\sethl\PA - TermProject\PA - TermProject\engine.cpp(87,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\sethl\PA - TermProject\PA - TermProject\engine.cpp(88,13): warning C4244: '=': conversion from 'double' to 'float', possible loss of data
+C:\Users\sethl\PA - TermProject\PA - TermProject\engine.cpp(151,23): warning C4244: 'return': conversion from 'double' to 'unsigned int', possible loss of data
+  graphics.cpp
+C:\Users\sethl\PA - TermProject\PA - TermProject\graphics.cpp(165,12): warning C4305: 'initializing': truncation from 'double' to '_Ty'
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\sethl\PA - TermProject\PA - TermProject\graphics.cpp(165,16): warning C4305: 'initializing': truncation from 'double' to '_Ty'
+          with
+          [
+              _Ty=float
+          ]
+C:\Users\sethl\PA - TermProject\PA - TermProject\graphics.cpp(165,20): warning C4305: 'initializing': truncation from 'double' to '_Ty'
+          with
+          [
+              _Ty=float
+          ]
+  main.cpp
+  Generating Code...
+C:\Users\sethl\PA - TermProject\PA - TermProject\graphics.cpp(216): warning C4172: returning address of local variable or temporary: textures
+  PA - TermProject.vcxproj -> C:\Users\sethl\PA - TermProject\x64\Debug\PA - TermProject.exe
