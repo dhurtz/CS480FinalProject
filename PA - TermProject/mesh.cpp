@@ -57,9 +57,7 @@ Mesh::Mesh(glm::vec3 pivot, const char* fname, const char* tname)
 		hasTex = true;
 	else
 		hasTex = false;
-
 }
-
 
 Mesh::~Mesh()
 {
@@ -70,9 +68,11 @@ Mesh::~Mesh()
 void Mesh::Update(glm::mat4 inmodel)
 {
 	model = inmodel;
-
 }
-
+void Mesh::UpdatePosition(glm::vec3 pos, glm::vec3 front) {
+	float distanceFromCamera = 3.0f; // Set the distance from the camera
+	position = pos + (front * distanceFromCamera);
+}
 glm::mat4 Mesh::GetModel()
 {
 	return model;

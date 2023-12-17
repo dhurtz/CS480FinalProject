@@ -16,7 +16,9 @@ class Camera
     void cameraPosVert(float speed);
     void cameraPosHorz(float speed);
     void zoom(float fov);
-  
+    glm::vec3 getCameraPos() { return cameraPos; }
+    glm::vec3 getCameraFront() { return cameraFront; }
+    glm::vec3 getCameraUp() { return cameraUp; }
   private:
     glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 20.0f);
     glm::vec3 cameraFront = glm::vec3(0.0, 1.0, 1.0);

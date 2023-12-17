@@ -25,9 +25,9 @@ class Graphics
     bool Initialize(int width, int height);
     void HierarchicalUpdate2(double dt);
     void Render();
-    Texture* setupSkybox();
 
     Camera* getCamera() { return m_camera; }
+    Mesh* getStarShip() { return m_mesh; }
 
   private:
     std::string ErrorString(GLenum error);

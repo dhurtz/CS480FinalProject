@@ -157,27 +157,22 @@ void Graphics::HierarchicalUpdate2(double dt) {
 
 	modelStack.pop();
 	modelStack.pop();
+	
 
-	speed = { 1, 1., 1. };
-	dist = { 0, 6., 6. };
-	rotVector = { 1 , 0, 0 };
-	rotSpeed = { 1, 1, 1. };
-	scale = { .02,.02,.02 };
-	localTransform = modelStack.top();	
-	localTransform *= glm::translate(glm::mat4(1.f),
-		glm::vec3(sin(speed[0] * dt) * dist[0], cos(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
-	modelStack.push(localTransform);			// store planet-sun coordinate
-	localTransform *= glm::rotate(glm::mat4(1.f), -80.f, glm::vec3(1, 0, 0));
-	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt , rotVector);
-	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
+	scale = { .020f, .020f, .020f };
+	glm::vec3 pos = m_mesh->getPosition();
+	glm::vec3 pos2 = { 0, -1, -5 };
+	glm::mat4 translationMatrix = glm::translate(glm::mat4(1.f), m_mesh->getPosition());
+	glm::mat4 rotationMatrix = glm::lookAt(glm::vec3(0.f), m_camera->getCameraFront(), {0.f, -1.f, 0.f});
+	glm::mat4 translationMatrix2 = glm::translate(glm::mat4(1.f), pos2);
+	glm::mat4 scaleMatrix = glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
+	glm::mat4 correctionRotation = glm::rotate(glm::mat4(1.0f), glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+	localTransform = translationMatrix * rotationMatrix * correctionRotation * scaleMatrix;
+	//localTransform *= translationMatrix2;
 	if (m_mesh != NULL)
 		m_mesh->Update(localTransform);
 
-
-
-
-
-	modelStack.pop(); 	// back to the planet coordinate
+	//modelStack.pop(); 	// back to the planet coordinate
 
 
 	modelStack.pop(); 	// back to the sun coordinate
@@ -195,25 +190,6 @@ void Graphics::ComputeTransforms(double dt, std::vector<float> speed, std::vecto
 	);
 	rmat = glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	smat = glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
-}
-Texture* Graphics::setupSkybox()
-{
-	Texture textures[6];
-	Texture texture;
-	const char* skyboxFiles[6] = {
-		"assets\\right.jpg",
-		"assets\\left.jpg",
-		"assets\\top.jpg",
-		"assets\\bottom.jpg",
-		"assets\\front.jpg",
-		"assets\\back.jpg"
-	};
-	for (int i = 0; i < 6; ++i) {
-		texture.loadTexture(skyboxFiles[i]);
-		texture.initializeTexture();
-		textures[i] = texture;
-	}
-	return textures;
 }
 void Graphics::Render()
 {

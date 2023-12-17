@@ -62,7 +62,6 @@ void Engine::Run()
   {
       
       ProcessInput();
-    
       Display(m_window->getWindow(), glfwGetTime());
       glfwPollEvents();
      
@@ -99,6 +98,7 @@ void Engine::ProcessInput()
     if (pitch < -89.0f)
         pitch = -89.0f;
 
+
     glm::vec3 front;
     front.x = cos(glm::radians(yaw)) * cos(glm::radians(pitch));
     front.y = sin(glm::radians(pitch));
@@ -108,19 +108,23 @@ void Engine::ProcessInput()
     m_graphics->getCamera()->updateView(cameraFront);
     m_graphics->getCamera()->zoom(fov);
 
-    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_D) == GLFW_PRESS)
-    m_graphics->getCamera()->cameraPosHorz(0.5f);
-    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_A) == GLFW_PRESS)
-    m_graphics->getCamera()->cameraPosHorz(-0.5f);
-    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_W) == GLFW_PRESS)
+    glm::vec3 cameraPos2 = m_graphics->getCamera()->getCameraPos();
+    glm::vec3 cameraFront2 = m_graphics->getCamera()->getCameraFront();
+    m_graphics->getStarShip()->UpdatePosition(cameraPos2, cameraFront2);
+
+
+    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_D) == GLFW_PRESS){
+        m_graphics->getCamera()->cameraPosHorz(0.5f);
+    }
+    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_A) == GLFW_PRESS) {
+        m_graphics->getCamera()->cameraPosHorz(-0.5f);
+    }
+    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_W) == GLFW_PRESS) {
         m_graphics->getCamera()->cameraPosVert(0.5f);
-    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_S) == GLFW_PRESS)
+    }
+    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_S) == GLFW_PRESS) {
         m_graphics->getCamera()->cameraPosVert(-0.5f);
-        
-
-
-
-
+    }
 }
 
 static void scroll_callback(GLFWwindow* window, double xoffset, double yoffset)
