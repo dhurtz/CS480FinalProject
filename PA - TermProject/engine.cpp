@@ -111,22 +111,48 @@ void Engine::ProcessInput()
         m_graphics->getCamera()->updateView(cameraFront);
         m_graphics->getCamera()->zoom(fov);
         m_graphics->getStarShip()->UpdatePosition(cameraPos2, cameraFront2);
-    }
-    
 
 
-
-    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_D) == GLFW_PRESS){
-        m_graphics->getCamera()->cameraPosHorz(0.5f);
+        if (glfwGetKey(m_window->getWindow(), GLFW_KEY_D) == GLFW_PRESS) {
+            m_graphics->getCamera()->cameraPosHorz(0.5f);
+        }
+        if (glfwGetKey(m_window->getWindow(), GLFW_KEY_A) == GLFW_PRESS) {
+            m_graphics->getCamera()->cameraPosHorz(-0.5f);
+        }
+        if (glfwGetKey(m_window->getWindow(), GLFW_KEY_W) == GLFW_PRESS) {
+            m_graphics->getCamera()->cameraPosVert(0.5f);
+        }
+        if (glfwGetKey(m_window->getWindow(), GLFW_KEY_S) == GLFW_PRESS) {
+            m_graphics->getCamera()->cameraPosVert(-0.5f);
+        }
     }
-    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_A) == GLFW_PRESS) {
-        m_graphics->getCamera()->cameraPosHorz(-0.5f);
-    }
-    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_W) == GLFW_PRESS) {
-        m_graphics->getCamera()->cameraPosVert(0.5f);
-    }
-    if (glfwGetKey(m_window->getWindow(), GLFW_KEY_S) == GLFW_PRESS) {
-        m_graphics->getCamera()->cameraPosVert(-0.5f);
+    else 
+    { 
+        if (glfwGetKey(m_window->getWindow(), GLFW_KEY_E) == GLFW_PRESS) 
+        {
+            m_graphics->getCamera()->isInteracting = false;
+            std::vector<Sphere*> interactables = m_graphics->getinteractables();
+            for (Sphere* planet : interactables)
+            {
+                if (planet->isBeingInteractedWith) 
+                {
+                    planet->isBeingInteractedWith = false;
+                    
+                }
+            }
+            m_graphics->getCamera()->setOldPos();
+        }
+        else 
+        {
+            std::vector<Sphere*> interactables = m_graphics->getinteractables();
+            for (Sphere* planet : interactables)
+            {
+                if (m_graphics->getCamera()->isInteracting && planet->isBeingInteractedWith)
+                {
+                    m_graphics->getCamera()->setNewPos(planet->getposition(), planet->getSize());
+                }
+            }
+        }
     }
 }
 

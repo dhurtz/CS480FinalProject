@@ -30,6 +30,7 @@ public:
     float getSize() { return size; }
     bool hasTex;
     std::string name;
+    bool isBeingInteractedWith = false;
 private:
     glm::vec3 pivotLocation;
     glm::mat4 model;

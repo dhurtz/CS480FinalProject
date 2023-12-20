@@ -754,10 +754,11 @@ void Graphics::checkIfShipIsClose(glm::vec3 starShipPos)
 			glm::vec3 directionToPlanet = glm::normalize(planet->getposition() - m_camera->getCameraPos());
 
 			float lookingAt = glm::dot(m_camera->getCameraFront(), directionToPlanet);
-			if (lookingAt > 0.8f) {
+			if (lookingAt > 0.8f && planet->name != "m_sun") {
 				std::cout << "Looking at Planet: " << planet->name << std::endl; // Debug Purposes
 				m_camera->isInteracting = true;
-				m_camera->setNewPos(planet->getposition());
+				planet->isBeingInteractedWith = true;
+				m_camera->setterPosFront(m_camera->getCameraPos());
 			}
 		}
 	}
