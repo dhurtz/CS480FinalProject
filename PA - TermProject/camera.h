@@ -19,6 +19,12 @@ class Camera
     glm::vec3 getCameraPos() { return cameraPos; }
     glm::vec3 getCameraFront() { return cameraFront; }
     glm::vec3 getCameraUp() { return cameraUp; }
+    void setOldPos(glm::vec3 pos) { cameraPos = { x,y,z }; view = glm::lookAt(cameraPos, cameraFront + cameraPos, cameraUp);}
+    void setNewPos(glm::vec3 planetPosition) { 
+        x = cameraPos.x; y = cameraPos.y; z = cameraPos.z;
+        view = glm::lookAt(cameraPos + planetPosition, planetPosition, glm::vec3(0.0f, 1.0f, 0.0f));
+    }
+    bool isInteracting = false; 
   private:
     glm::vec3 cameraPos = glm::vec3(0.0f, 0.0f, 20.0f);
     glm::vec3 cameraFront = glm::vec3(0.0, 1.0, 1.0);

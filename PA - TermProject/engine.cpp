@@ -104,13 +104,16 @@ void Engine::ProcessInput()
     front.y = sin(glm::radians(pitch));
     front.z = sin(glm::radians(yaw)) * cos(glm::radians(pitch));
     glm::vec3 cameraFront = glm::normalize(front);
-
-    m_graphics->getCamera()->updateView(cameraFront);
-    m_graphics->getCamera()->zoom(fov);
-
     glm::vec3 cameraPos2 = m_graphics->getCamera()->getCameraPos();
     glm::vec3 cameraFront2 = m_graphics->getCamera()->getCameraFront();
-    m_graphics->getStarShip()->UpdatePosition(cameraPos2, cameraFront2);
+    if (!(m_graphics->getCamera()->isInteracting)) 
+    {
+        m_graphics->getCamera()->updateView(cameraFront);
+        m_graphics->getCamera()->zoom(fov);
+        m_graphics->getStarShip()->UpdatePosition(cameraPos2, cameraFront2);
+    }
+    
+
 
 
     if (glfwGetKey(m_window->getWindow(), GLFW_KEY_D) == GLFW_PRESS){

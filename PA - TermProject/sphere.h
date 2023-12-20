@@ -25,9 +25,11 @@ public:
     std::vector<glm::vec3> getNormals();
 
     GLuint getTextureID() { return m_texture->getTextureID(); }
-    
+    void setPosNSize(glm::vec3 newPos, float newSize) { position = newPos; size = newSize; }
+    glm::vec3 getposition() { return position; }
+    float getSize() { return size; }
     bool hasTex;
-
+    std::string name;
 private:
     glm::vec3 pivotLocation;
     glm::mat4 model;
@@ -54,6 +56,8 @@ private:
     std::vector<glm::vec3> normals;
     void init(int);
     float toRadians(float degrees);
+    glm::vec3 position;
+    float size;
 
     std::vector<float> pvalues; // vertex positions
     std::vector<float> tvalues; // texture coordinates

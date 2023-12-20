@@ -28,7 +28,9 @@ class Graphics
 
     Camera* getCamera() { return m_camera; }
     Mesh* getStarShip() { return m_mesh; }
-
+    void updateObject(Sphere* newObj, glm::vec3 position, float size);
+    std::vector<Sphere*> getinteractables() { return interactables; }
+    void checkIfShipIsClose(glm::vec3);
   private:
     std::string ErrorString(GLenum error);
 
@@ -54,6 +56,7 @@ class Graphics
     SkyBox* m_skyBoxes[6] = {};
     SkyBox* m_skyBox;
 
+    std::vector<Sphere*> interactables;
     // Planets and moons
     Sphere* m_sun;
 

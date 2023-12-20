@@ -9,7 +9,10 @@ Graphics::~Graphics()
 {
 
 }
-
+void Graphics::updateObject(Sphere* newObj, glm::vec3 position, float size)
+{
+	newObj->setPosNSize(position, size);
+}
 bool Graphics::Initialize(int width, int height)
 {
 	// Used for the linux OS
@@ -146,6 +149,8 @@ bool Graphics::Initialize(int width, int height)
 		m_skyBoxes[i] = new SkyBox(skyboxFiles[i], m_vertPos, m_vertCol, i);
 	}
 
+	interactables = { m_sun, m_mercury, m_venus, m_earth, m_earths_moon, m_mars, m_mars_moon1, m_mars_moon2, m_jupiter, m_jupiter_moon1, m_jupiter_moon2, m_jupiter_moon3, m_saturn, m_saturn_moon1, m_saturn_moon2, m_saturn_moon3, m_saturn_moon4, m_saturn_moon5, m_uranus, m_uranus_moon1, m_uranus_moon2, m_uranus_moon3, m_uranus_moon4, m_uranus_moon5, m_neptune, m_neptune_moon1, m_neptune_moon2, m_neptune_moon3, m_neptune_moon4, m_haley };
+	
 
 	//enable depth testing
 	glEnable(GL_DEPTH_TEST);
@@ -166,7 +171,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform *= glm::scale(glm::vec3(25.0f, 25.0f, 25.0f));
 	if (m_sun != NULL)
 		m_sun->Update(localTransform);
-
+	updateObject(m_sun, glm::vec3(0, 0, 0), 25.0f);
+	m_sun->name = "m_sun";
 	// Position of Mercury
 	speed = { 1.76f, 1.76f, 1.76f };
 	dist = { 37, 0, 37 };
@@ -176,6 +182,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_mercury, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .33f);
+	m_mercury->name = "m_mercury";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -193,6 +201,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_venus, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .95f);
+	m_venus->name = "m_venus";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -210,6 +220,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();				// start with sun's coordinate
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_earth, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), 1);
+	m_earth->name = "m_earth";
 	modelStack.push(localTransform);			// store planet-sun coordinate
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -227,6 +239,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_earths_moon, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .25f);
+	m_earths_moon->name = "m_earths_moon";
 	modelStack.push(localTransform);			// store moon-planet-sun coordinate
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -245,6 +259,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_mars, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .5f);
+	m_mars->name = "m_mars";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -260,6 +276,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_mars_moon1, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .25f);
+	m_mars_moon1->name = "m_mars_moon1";
 	modelStack.push(localTransform);			// store moon-planet-sun coordinate
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -277,6 +295,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_mars_moon2, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .2);
+	m_mars_moon2->name = "m_mars_moon2";
 	modelStack.push(localTransform);			// store moon-planet-sun coordinate
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -295,6 +315,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_jupiter, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), 11);
+	m_jupiter->name = "m_jupiter";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -310,6 +332,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_jupiter_moon1, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .4f);
+	m_jupiter_moon1->name = "m_jupiter_moon1";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -327,6 +351,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_jupiter_moon2, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .25f);
+	m_jupiter_moon2->name = "m_jupiter_moon2";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -344,6 +370,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_jupiter_moon3, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .25f); 
+	m_jupiter_moon3->name = "m_jupiter_moon3";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -362,6 +390,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_saturn, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), 10);
+	m_saturn->name = "m_saturn";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -377,6 +407,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_saturn_moon1, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .6f);
+	m_saturn_moon1->name = "m_saturn_moon1";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -394,6 +426,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_saturn_moon2, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .1f);
+	m_saturn_moon2->name = "m_saturn_moon2";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -411,6 +445,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_saturn_moon3, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .25f);
+	m_saturn_moon3->name = "m_saturn_moon3";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -428,6 +464,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_saturn_moon4, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .8f);
+	m_saturn_moon4->name = "m_saturn_moon4";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -445,6 +483,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_saturn_moon5, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .25f);
+	m_saturn_moon5->name = "m_saturn_moon5";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -463,6 +503,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_uranus, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), 4);
+	m_uranus->name = "m_uranus";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -478,6 +520,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_uranus_moon1, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .1f);
+	m_uranus_moon1->name = "m_uranus_moon1";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -495,6 +539,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_uranus_moon2, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .35f);
+	m_uranus_moon2->name = "m_uranus_moon2";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -512,6 +558,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_uranus_moon3, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .5f);
+	m_uranus_moon3->name = "m_uranus_moon3";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -529,6 +577,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_uranus_moon4, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .25f);
+	m_uranus_moon4->name = "m_uranus_moon4";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -546,6 +596,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_uranus_moon5, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .45f);
+	m_uranus_moon5->name = "m_uranus_moon5";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -564,6 +616,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_neptune, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), 6);
+	m_neptune->name = "m_neptune";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -579,6 +633,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_neptune_moon1, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .45f);
+	m_neptune_moon1->name = "m_neptune_moon1";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -596,6 +652,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_neptune_moon2, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .25f);
+	m_neptune_moon2->name = "m_neptune_moon2";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -613,6 +671,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_neptune_moon3, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .15f);
+	m_neptune_moon3->name = "m_neptune_moon3";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -630,6 +690,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_neptune_moon4, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), .45f);
+	m_neptune_moon4->name = "m_neptune_moon4";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -648,6 +710,8 @@ void Graphics::HierarchicalUpdate2(double dt) {
 	localTransform = modelStack.top();
 	localTransform *= glm::translate(glm::mat4(1.f),
 		glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]));
+	updateObject(m_haley, glm::vec3(cos(speed[0] * dt) * dist[0], sin(speed[1] * dt) * dist[1], sin(speed[2] * dt) * dist[2]), 1);
+	m_haley->name = "m_haley";
 	modelStack.push(localTransform);
 	localTransform *= glm::rotate(glm::mat4(1.f), rotSpeed[0] * (float)dt, rotVector);
 	localTransform *= glm::scale(glm::vec3(scale[0], scale[1], scale[2]));
@@ -675,7 +739,29 @@ void Graphics::HierarchicalUpdate2(double dt) {
 
 	//modelStack.pop();	// empy stack
 
+	checkIfShipIsClose(m_mesh->getPosition());
+}
+void Graphics::checkIfShipIsClose(glm::vec3 starShipPos)
+{
+	for (Sphere* planet : interactables) 
+	{
+		float distance = glm::distance(planet->getposition(), starShipPos);
+		float averageSize = (planet->getSize() + 0.020f) / 2.0f;
+		float scaledDistance = distance / averageSize;
+		
+		if (scaledDistance <= 3) 
+		{
+			glm::vec3 directionToPlanet = glm::normalize(planet->getposition() - m_camera->getCameraPos());
 
+			float lookingAt = glm::dot(m_camera->getCameraFront(), directionToPlanet);
+			if (lookingAt > 0.8f) {
+				std::cout << "Looking at Planet: " << planet->name << std::endl; // Debug Purposes
+				m_camera->isInteracting = true;
+				m_camera->setNewPos(planet->getposition());
+			}
+		}
+	}
+	
 }
 
 
