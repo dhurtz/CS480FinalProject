@@ -4,6 +4,7 @@ Controls for our project:
 W/A/S/D: Allows the ship to traverse through space
 Mouse: movement of mouse rotates the ship around space
 Escape: Exits you out of the program
+E - Get out of Observation Mode
 
 For our dependices we did not use any libraries that were not already included within our programming assignments
 Dependencies:
