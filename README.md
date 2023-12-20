@@ -1,3 +1,5 @@
+Authors: Seth Lopez, Dustin Hurtz
+
 Controls for our project:
 W/A/S/D: Allows the ship to traverse through space
 Mouse: movement of mouse rotates the ship around space
